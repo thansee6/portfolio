@@ -1,0 +1,24 @@
+const About = () => (
+  <div className="py-20 grid md:grid-cols-2 gap-12 items-center">
+    <div className="bg-gray-200 rounded-2xl aspect-square w-full h-full flex items-center justify-center text-gray-400">
+      
+      
+    </div>
+    <div>
+      <h2 className="text-4xl font-bold text-gray-900 mb-6">About Me</h2>
+      <p className="text-gray-600 mb-4 leading-relaxed">
+        I’m a developer who loves bridging the gap between design and code. 
+      </p>
+      <p className="text-gray-600 mb-6">
+        With 2+ years of experience in the React ecosystem, I specialize in:
+      </p>
+      <ul className="grid grid-cols-2 gap-3 text-sm font-semibold text-blue-600">
+        <li>▹ React </li>
+        <li>▹ Tailwind CSS</li>
+        <li>▹ JavaScript</li>
+      </ul>
+    </div>
+  </div>
+);
+
+export default About;
