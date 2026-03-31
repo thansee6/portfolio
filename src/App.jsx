@@ -10,11 +10,11 @@ import Loader from './components/Loader';
 function App() {
   return (
     <Router>
-
-<div className="flex flex-col min-h-screen bg-white dark:bg-black transition-colors duration-300 ...">        <Navbar />
+      <div className="flex flex-col min-h-screen bg-white dark:bg-black transition-colors duration-300">
         
-       
-        <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8">
+        <Navbar />
+
+        <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
@@ -28,5 +28,4 @@ function App() {
     </Router>
   );
 }
-
 export default App;

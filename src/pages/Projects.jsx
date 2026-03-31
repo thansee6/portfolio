@@ -4,8 +4,7 @@ const Projects = () => {
   return (
     <section className="py-24 bg-white dark:bg-black transition-colors duration-300 min-h-screen">
       <div className="max-w-7xl mx-auto px-6">
-        
-        {/* Section Header */}
+       
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4">
             Recent <span className="text-blue-600">Work</span>
@@ -13,14 +12,12 @@ const Projects = () => {
           <div className="h-1.5 w-20 bg-blue-600 mx-auto rounded-full"></div>
         </div>
 
-        {/* Dynamic Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {projectsData.map((project) => (
             <div 
               key={project.id} 
               className="group bg-gray-50 dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 hover:border-blue-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2"
             >
-              {/* Image with Zoom Effect */}
               <div className="relative overflow-hidden aspect-video">
                 <img 
                   src={project.image} 
@@ -31,8 +28,6 @@ const Projects = () => {
                    <span className="text-white font-medium text-sm">View Details →</span>
                 </div>
               </div>
-
-              {/* Text Content */}
               <div className="p-8">
                 <div className="flex justify-between items-start mb-4">
                   <span className="text-[10px] font-black uppercase tracking-[0.25em] text-blue-600 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">

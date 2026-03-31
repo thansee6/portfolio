@@ -1,3 +1,4 @@
+
 const About = () => (
   <div className="py-20 grid md:grid-cols-2 gap-12 items-center">
     <div className="bg-gray-200 rounded-2xl aspect-square w-full h-full flex items-center justify-center text-gray-400">
