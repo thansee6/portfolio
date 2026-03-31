@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -25,33 +25,41 @@ const Navbar = () => {
   }, [darkMode]);
 
   const navLinks = [
-    { name: 'Home', id: '/', href: '/' },
+    { name: 'Home', id: 'home', href: '/' },
     { name: 'About', id: 'about', href: '/about' },
     { name: 'Projects', id: 'projects', href: '/projects' },
     { name: 'Contact', id: 'contact', href: '/contact' },
   ];
 
-  useEffect(() => {
-    const observerCallback = (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id);
-        }
-      });
-    };
+  const location = useLocation();
 
-    const observer = new IntersectionObserver(observerCallback, {
-      root: null,
-      threshold: 0.6,
+ useEffect(() => {
+  if (location.pathname !== '/') {
+    setActiveSection(location.pathname.substring(1));
+  } else if (window.scrollY < 100) {
+    setActiveSection('home');
+  }
+
+  const observerCallback = (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && location.pathname === '/') {
+        setActiveSection(entry.target.id);
+      }
     });
+  };
 
-    navLinks.forEach((link) => {
-      const element = document.getElementById(link.id);
-      if (element) observer.observe(element);
-    });
+  const observer = new IntersectionObserver(observerCallback, {
+    root: null,
+    threshold: 0.6,
+  });
 
-    return () => observer.disconnect();
-  }, []);
+  
+  return () => {
+    observer.disconnect();
+  };
+}, [location.pathname]);
+
+    
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -84,37 +92,40 @@ const Navbar = () => {
 
   const navLinkStyles = ({ isActive }) => `
     text-lg font-medium transition-all duration-300 relative py-1
-    ${isActive 
-      ? 'text-blue-600 dark:text-blue-400' 
+    ${isActive
+      ? 'text-blue-600 dark:text-blue-400'
       : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'}
   `;
 
   return (
-    <nav className={`fixed w-full top-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md py-3' 
+    <nav className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled
+        ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md py-3'
         : 'bg-white dark:bg-gray-900 py-5'
-    }`}>
+      }`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        
+
         <Link to="/" className="text-3xl font-extrabold text-blue-600 tracking-tighter">
           Thanseeh
         </Link>
 
         <div className="hidden md:flex items-center space-x-10">
           {navLinks.map((link) => (
-            <NavLink key={link.name} to={link.href} className={navLinkStyles}>
+            <button
+              key={link.name}
+              onClick={() => handleLinkClick(link)}
+              className={`
+        text-lg font-medium transition-all duration-300 relative py-1
+        ${activeSection === link.id
+                  ? 'text-blue-600 dark:text-blue-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-600'
+                }
+      `}
+            >
               {link.name}
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
-            </NavLink>
+              <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0'
+                }`}></span>
+            </button>
           ))}
-
-          <button 
-            onClick={() => setDarkMode(!darkMode)}
-            className="p-2.5 rounded-xl bg-gray-100 dark:bg-gray-800 hover:ring-2 ring-blue-400 transition-all"
-          >
-            {darkMode ? '🌙' : '☀️'}
-          </button>
         </div>
 
         <div className="md:hidden flex items-center space-x-4">
@@ -122,8 +133,8 @@ const Navbar = () => {
             {darkMode ? '🌙' : '☀️'}
           </button>
 
-          <button 
-            onClick={() => setIsOpen(!isOpen)} 
+          <button
+            onClick={() => setIsOpen(!isOpen)}
             className="text-gray-600 dark:text-gray-300 focus:outline-none"
           >
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -144,9 +155,9 @@ const Navbar = () => {
       `}>
         <div className="flex flex-col p-6 space-y-4">
           {navLinks.map((link) => (
-            <NavLink 
-              key={link.name} 
-              to={link.href} 
+            <NavLink
+              key={link.name}
+              to={link.href}
               onClick={() => setIsOpen(false)}
               className={navLinkStyles}
             >
@@ -157,6 +168,5 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
-
+};  
 export default Navbar;
