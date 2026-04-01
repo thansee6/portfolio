@@ -2,7 +2,7 @@ import { useState, lazy, Suspense, useCallback } from 'react';
 
 import Hero from '../components/Hero';
 import Modal from '../components/Modal';
-import { Helmet } from 'react-helmet';
+import { Helmet } from 'react-helmet-async';
 
 
 const About = lazy(() => import('./About'));
@@ -16,7 +16,7 @@ const Home = () => {
 
   return (
     <div>
-       <Helmet>
+      <Helmet>
         <title>Thanseeh | Frontend Developer</title>
         <meta name="description" content="Portfolio of Thanseeh, a React frontend developer specializing in modern web apps." />
         <meta name="keywords" content="React developer, frontend developer, portfolio" />
@@ -29,11 +29,11 @@ const Home = () => {
         <section id="about">
           <About isHome={true} />
         </section>
-        
+
         <section id="projects">
           <Projects isHome={true} />
         </section>
-        
+
         <section id="contact">
           <Contact isHome={true} />
         </section>

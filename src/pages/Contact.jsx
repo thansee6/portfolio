@@ -74,7 +74,7 @@ const Contact = ({ isHome }) => {
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={isHome ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
       whileInView={isHome ? { opacity: 1, y: 0 } : undefined}
       viewport={isHome ? { once: true, amount: 0.2 } : undefined}
