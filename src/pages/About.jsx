@@ -1,6 +1,14 @@
+import { memo } from 'react';
+import { motion } from 'framer-motion';
 
-const About = () => (
-  <div className="py-20 grid md:grid-cols-2 gap-12 items-center">
+const About = memo(() => (
+  <motion.div 
+    initial={{ opacity: 0, y: 50 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.3 }}
+    transition={{ duration: 0.6 }}
+    className="py-20 grid md:grid-cols-2 gap-12 items-center"
+  >
     <div className="bg-gray-200 rounded-2xl aspect-square w-full h-full flex items-center justify-center text-gray-400">
       
       
@@ -11,7 +19,7 @@ const About = () => (
         I’m a developer who loves bridging the gap between design and code. 
       </p>
       <p className="text-gray-600 mb-6">
-        With 2+ years of experience in the React ecosystem, I specialize in:
+        With 1+ years of experience in the React ecosystem, I specialize in:
       </p>
       <ul className="grid grid-cols-2 gap-3 text-sm font-semibold text-blue-600">
         <li>▹ React </li>
@@ -19,7 +27,8 @@ const About = () => (
         <li>▹ JavaScript</li>
       </ul>
     </div>
-  </div>
-);
+  </motion.div>
+));
 
+About.displayName = 'About';
 export default About;

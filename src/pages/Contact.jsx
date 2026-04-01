@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
+import emailjs from '@emailjs/browser';
 
-const Contact = () => {
+const Contact = memo(() => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
-    // Clear error immediately when user begins typing
     if (errors[e.target.name]) {
       setErrors({ ...errors, [e.target.name]: '' });
     }
@@ -30,15 +32,37 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSuccess(false);
+    setErrorMessage('');
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      setSuccess(false);
-    } else {
-      setErrors({});
-      setSuccess(true);
-      setFormData({ name: '', email: '', message: '' });
+      return;
     }
+
+    setErrors({});
+    setIsSubmitting(true);
+
+    emailjs.send(
+      import.meta.env.VITE_EMAILJS_SERVICE_ID || 'your_service_id',
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'your_template_id',
+      {
+        from_name: formData.name,
+        from_email: formData.email,
+        message: formData.message,
+      },
+      import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'your_public_key'
+    )
+      .then(() => {
+        setSuccess(true);
+        setFormData({ name: '', email: '', message: '' });
+      })
+      .catch((error) => {
+        console.error('EmailJS Error:', error);
+        setErrorMessage('Failed to send message. Please check your EmailJS configuration.');
+      })
+      .finally(() => setIsSubmitting(false));
   };
 
   return (
@@ -55,6 +79,12 @@ const Contact = () => {
           </div>
         )}
 
+        {errorMessage && (
+          <div className="p-4 bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 rounded-xl text-center font-medium">
+            {errorMessage}
+          </div>
+        )}
+
         <div>
           <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Name</label>
           <input
@@ -64,7 +94,6 @@ const Contact = () => {
             value={formData.name}
             onChange={handleChange}
             className={`w-full px-4 py-3 rounded-xl border ${errors.name ? 'border-red-500' : 'border-gray-200 dark:border-gray-700'} bg-transparent text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition`}
-
           />
           {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
         </div>
@@ -92,12 +121,18 @@ const Contact = () => {
           ></textarea>
           {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
         </div>
-        <button type="submit" className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold hover:bg-blue-700 transition transform active:scale-[0.98]">
-          Send Message
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className={`w-full py-4 rounded-xl font-bold text-white transition transform active:scale-[0.98] ${isSubmitting ? 'bg-blue-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+            }`}
+        >
+          {isSubmitting ? 'Sending...' : 'Send Message'}
         </button>
       </form>
     </div>
   );
-};
+});
 
+Contact.displayName = 'Contact';
 export default Contact;

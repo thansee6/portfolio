@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { NavLink, Link, useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, useCallback, useMemo, memo } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -24,12 +24,12 @@ const Navbar = () => {
     }
   }, [darkMode]);
 
-  const navLinks = [
+  const navLinks = useMemo(() => [
     { name: 'Home', id: 'home', href: '/' },
     { name: 'About', id: 'about', href: '/about' },
     { name: 'Projects', id: 'projects', href: '/projects' },
     { name: 'Contact', id: 'contact', href: '/contact' },
-  ];
+  ], []);
 
   const location = useLocation();
 
@@ -53,11 +53,19 @@ const Navbar = () => {
     threshold: 0.6,
   });
 
+  if (location.pathname === '/') {
+    navLinks.forEach((link) => {
+      const element = document.getElementById(link.id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
+  }
   
   return () => {
     observer.disconnect();
   };
-}, [location.pathname]);
+}, [location.pathname, navLinks]);
 
     
 
@@ -67,7 +75,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (id) => {
+  const scrollToSection = useCallback((id) => {
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
@@ -76,9 +84,9 @@ const Navbar = () => {
         window.scrollTo({ top: top - offset, behavior: 'smooth' });
       }
     }, 100);
-  };
+  }, []);
 
-  const handleLinkClick = (link) => {
+  const handleLinkClick = useCallback((link) => {
     navigate(link.href);
 
     if (link.href === '/') {
@@ -88,7 +96,7 @@ const Navbar = () => {
     }
 
     setIsOpen(false);
-  };
+  }, [navigate, scrollToSection]);
 
   const navLinkStyles = ({ isActive }) => `
     text-lg font-medium transition-all duration-300 relative py-1
@@ -128,14 +136,14 @@ const Navbar = () => {
           ))}
         </div>
 
-        <div className="md:hidden flex items-center space-x-4">
+        <div className=" flex items-center space-x-4">
           <button onClick={() => setDarkMode(!darkMode)} className="text-2xl">
             {darkMode ? '🌙' : '☀️'}
           </button>
 
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-gray-600 dark:text-gray-300 focus:outline-none"
+            className="text-gray-600 dark:text-gray-300 focus:outline-none md:hidden"
           >
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isOpen ? (
@@ -153,20 +161,28 @@ const Navbar = () => {
         transition-all duration-300 ease-in-out md:hidden
         ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-5 opacity-0 pointer-events-none'}
       `}>
+        
         <div className="flex flex-col p-6 space-y-4">
           {navLinks.map((link) => (
-            <NavLink
+            <button
               key={link.name}
-              to={link.href}
-              onClick={() => setIsOpen(false)}
-              className={navLinkStyles}
+              onClick={() => handleLinkClick(link)}
+              className={`
+                text-lg font-medium transition-all duration-300 relative py-1 text-left w-max
+                ${activeSection === link.id
+                  ? 'text-blue-600 dark:text-blue-400'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                }
+              `}
             >
               {link.name}
-            </NavLink>
+              <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0'
+                }`}></span>
+            </button>
           ))}
         </div>
       </div>
     </nav>
   );
 };  
-export default Navbar;
+export default memo(Navbar);
