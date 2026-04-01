@@ -138,7 +138,7 @@ const Navbar = () => {
 
         <div className=" flex items-center space-x-4">
           <button onClick={() => setDarkMode(!darkMode)} className="text-2xl">
-            {darkMode ? '🌙' : '☀️'}
+            {darkMode ? '☀️' : '🌙`'}
           </button>
 
           <button

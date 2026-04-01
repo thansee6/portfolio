@@ -2,7 +2,7 @@ import { useState, lazy, Suspense, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import Hero from '../components/Hero';
 import Modal from '../components/Modal';
-
+import { Helmet } from 'react-helmet';
 const sectionVariants = {
   hidden: { opacity: 0, y: 50 },
   visible: { 
@@ -23,7 +23,11 @@ const Home = () => {
 
   return (
     <div>
-
+       <Helmet>
+        <title>Thanseeh | Frontend Developer</title>
+        <meta name="description" content="Portfolio of Thanseeh, a React frontend developer specializing in modern web apps." />
+        <meta name="keywords" content="React developer, frontend developer, portfolio" />
+      </Helmet>
       <section id="home">
         <Hero onOpenModal={handleOpenModal} />
       </section>
@@ -43,7 +47,7 @@ const Home = () => {
           id="projects"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.5 }}
           variants={sectionVariants}
         >
           <Projects />
@@ -53,7 +57,7 @@ const Home = () => {
           id="contact"
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
+          viewport={{ once: true, amount: 0.7 }}
           variants={sectionVariants}
         >
           <Contact />
