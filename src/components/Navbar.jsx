@@ -1,5 +1,12 @@
-import { useState, useEffect, useCallback, useMemo, memo } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+
+const navLinks = [
+  { name: 'Home', id: 'home', href: '/' },
+  { name: 'About', id: 'about', href: '/about' },
+  { name: 'Projects', id: 'projects', href: '/projects' },
+  { name: 'Contact', id: 'contact', href: '/contact' },
+];
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -24,50 +31,45 @@ const Navbar = () => {
     }
   }, [darkMode]);
 
-  const navLinks = useMemo(() => [
-    { name: 'Home', id: 'home', href: '/' },
-    { name: 'About', id: 'about', href: '/about' },
-    { name: 'Projects', id: 'projects', href: '/projects' },
-    { name: 'Contact', id: 'contact', href: '/contact' },
-  ], []);
+
 
   const location = useLocation();
 
- useEffect(() => {
-  if (location.pathname !== '/') {
-    setActiveSection(location.pathname.substring(1));
-  } else if (window.scrollY < 100) {
-    setActiveSection('home');
-  }
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      setActiveSection(location.pathname.substring(1));
+    } else if (window.scrollY < 100) {
+      setActiveSection('home');
+    }
 
-  const observerCallback = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting && location.pathname === '/') {
-        setActiveSection(entry.target.id);
-      }
+    const observerCallback = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && location.pathname === '/') {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(observerCallback, {
+      root: null,
+      threshold: 0.6,
     });
-  };
 
-  const observer = new IntersectionObserver(observerCallback, {
-    root: null,
-    threshold: 0.6,
-  });
+    if (location.pathname === '/') {
+      navLinks.forEach((link) => {
+        const element = document.getElementById(link.id);
+        if (element) {
+          observer.observe(element);
+        }
+      });
+    }
 
-  if (location.pathname === '/') {
-    navLinks.forEach((link) => {
-      const element = document.getElementById(link.id);
-      if (element) {
-        observer.observe(element);
-      }
-    });
-  }
-  
-  return () => {
-    observer.disconnect();
-  };
-}, [location.pathname, navLinks]);
+    return () => {
+      observer.disconnect();
+    };
+  }, [location.pathname]);
 
-    
+
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -75,7 +77,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = useCallback((id) => {
+  const scrollToSection = (id) => {
     setTimeout(() => {
       const element = document.getElementById(id);
       if (element) {
@@ -84,19 +86,24 @@ const Navbar = () => {
         window.scrollTo({ top: top - offset, behavior: 'smooth' });
       }
     }, 100);
-  }, []);
+  };
 
-  const handleLinkClick = useCallback((link) => {
-    navigate(link.href);
-
-    if (link.href === '/') {
-      scrollToSection('home');
+  const handleLinkClick = (link) => {
+    if (location.pathname !== link.href) {
+      navigate(link.href);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+      }, 0);
     } else {
-      scrollToSection(link.id);
+      if (link.href === '/') {
+        scrollToSection('home');
+      } else {
+        scrollToSection(link.id);
+      }
     }
 
     setIsOpen(false);
-  }, [navigate, scrollToSection]);
+  };
 
   const navLinkStyles = ({ isActive }) => `
     text-lg font-medium transition-all duration-300 relative py-1
@@ -107,8 +114,8 @@ const Navbar = () => {
 
   return (
     <nav className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled
-        ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md py-3'
-        : 'bg-white dark:bg-gray-900 py-5'
+      ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md py-3'
+      : 'bg-white dark:bg-gray-900 py-5'
       }`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
 
@@ -161,7 +168,7 @@ const Navbar = () => {
         transition-all duration-300 ease-in-out md:hidden
         ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-5 opacity-0 pointer-events-none'}
       `}>
-        
+
         <div className="flex flex-col p-6 space-y-4">
           {navLinks.map((link) => (
             <button
@@ -184,5 +191,5 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};  
-export default memo(Navbar);
+};
+export default Navbar;

@@ -1,12 +1,12 @@
-import { memo } from 'react';
+
 import { motion } from 'framer-motion';
 
-const About = memo(() => (
+const About = ({ isHome }) => (
   <motion.div 
-    initial={{ opacity: 0, y: 50 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once: true, amount: 0.3 }}
-    transition={{ duration: 0.6 }}
+    initial={isHome ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
+    whileInView={isHome ? { opacity: 1, y: 0 } : undefined}
+    viewport={isHome ? { once: true, amount: 0.3 } : undefined}
+    transition={isHome ? { duration: 0.6 } : undefined}
     className="py-20 grid md:grid-cols-2 gap-12 items-center"
   >
     <div className="bg-gray-200 rounded-2xl aspect-square w-full h-full flex items-center justify-center text-gray-400">
@@ -28,7 +28,6 @@ const About = memo(() => (
       </ul>
     </div>
   </motion.div>
-));
+);
 
-About.displayName = 'About';
 export default About;

@@ -1,9 +1,16 @@
-import { memo } from 'react';
+
+import { motion } from 'framer-motion';
 import projectsData from "../projects.json";
 
-const Projects = memo(() => {
+const Projects = ({ isHome }) => {
   return (
-    <section className="py-24 bg-white dark:bg-black transition-colors duration-300 min-h-screen">
+    <motion.section 
+      initial={isHome ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
+      whileInView={isHome ? { opacity: 1, y: 0 } : undefined}
+      viewport={isHome ? { once: true, amount: 0.1 } : undefined}
+      transition={isHome ? { duration: 0.6 } : undefined}
+      className="py-24 bg-white dark:bg-black transition-colors duration-300 min-h-screen"
+    >
       <div className="max-w-7xl mx-auto px-6">
 
         <div className="text-center mb-16">
@@ -62,9 +69,8 @@ const Projects = memo(() => {
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
-});
+};
 
-Projects.displayName = 'Projects';
 export default Projects;

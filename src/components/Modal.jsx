@@ -1,7 +1,7 @@
-import { memo } from 'react';
+
 import { motion } from 'framer-motion';
 
-const Modal = memo(({ isOpen, onClose, title, children }) => {
+const Modal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
 
   return (
@@ -9,7 +9,6 @@ const Modal = memo(({ isOpen, onClose, title, children }) => {
       <motion.div 
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.95 }}
         className="bg-white dark:bg-gray-900 rounded-2xl max-w-md w-full p-6 shadow-2xl transform transition-all"
       >
         <div className="flex justify-between items-center mb-4">
@@ -28,8 +27,6 @@ const Modal = memo(({ isOpen, onClose, title, children }) => {
       </motion.div>
     </div>
   );
-});
-
-Modal.displayName = 'Modal';
+};
 
 export default Modal;

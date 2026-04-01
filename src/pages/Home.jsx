@@ -1,16 +1,9 @@
 import { useState, lazy, Suspense, useCallback } from 'react';
-import { motion } from 'framer-motion';
+
 import Hero from '../components/Hero';
 import Modal from '../components/Modal';
 import { Helmet } from 'react-helmet';
-const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { duration: 0.8, ease: "easeOut" } 
-  }
-};
+
 
 const About = lazy(() => import('./About'));
 const Projects = lazy(() => import('./Projects'));
@@ -33,35 +26,17 @@ const Home = () => {
       </section>
 
       <Suspense fallback={<div className="h-96"></div>}>
-        <motion.section 
-          id="about"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={sectionVariants}
-        >
-          <About />
-        </motion.section>
+        <section id="about">
+          <About isHome={true} />
+        </section>
         
-        <motion.section 
-          id="projects"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
-          variants={sectionVariants}
-        >
-          <Projects />
-        </motion.section>
+        <section id="projects">
+          <Projects isHome={true} />
+        </section>
         
-        <motion.section 
-          id="contact"
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.7 }}
-          variants={sectionVariants}
-        >
-          <Contact />
-        </motion.section>
+        <section id="contact">
+          <Contact isHome={true} />
+        </section>
       </Suspense>
 
       <Modal

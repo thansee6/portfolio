@@ -34,7 +34,6 @@ const Hero = memo(({ onOpenModal }) => {
 
       <motion.p 
         initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
         className="text-lg md:text-2xl text-gray-600 dark:text-gray-400 max-w-2xl mb-8 leading-relaxed"
@@ -72,5 +71,4 @@ const Hero = memo(({ onOpenModal }) => {
   );
 });
 
-Hero.displayName = 'Hero';
 export default Hero;

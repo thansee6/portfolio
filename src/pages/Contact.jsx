@@ -1,7 +1,8 @@
-import { useState, memo } from 'react';
+import { useState } from 'react';
+import { motion } from 'framer-motion';
 import emailjs from '@emailjs/browser';
 
-const Contact = memo(() => {
+const Contact = ({ isHome }) => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [errors, setErrors] = useState({});
   const [success, setSuccess] = useState(false);
@@ -35,6 +36,11 @@ const Contact = memo(() => {
     setSuccess(false);
     setErrorMessage('');
 
+    if (!import.meta.env.VITE_EMAILJS_SERVICE_ID || !import.meta.env.VITE_EMAILJS_TEMPLATE_ID || !import.meta.env.VITE_EMAILJS_PUBLIC_KEY) {
+      setErrorMessage("Configuration error: EmailJS credentials are missing in the .env file. If you just added them, please restart your Vite server!");
+      return;
+    }
+
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -45,12 +51,14 @@ const Contact = memo(() => {
     setIsSubmitting(true);
 
     emailjs.send(
-      import.meta.env.VITE_EMAILJS_SERVICE_ID ,
-      import.meta.env.VITE_EMAILJS_TEMPLATE_ID ,
+      import.meta.env.VITE_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
       {
-        from_name: formData.name,
-        from_email: formData.email,
+        title: "Portfolio Contact Form",
+        name: formData.name,
+        email: formData.email,
         message: formData.message,
+        time: new Date().toLocaleString(),
       },
       import.meta.env.VITE_EMAILJS_PUBLIC_KEY
     )
@@ -60,13 +68,19 @@ const Contact = memo(() => {
       })
       .catch((error) => {
         console.error('EmailJS Error:', error);
-        setErrorMessage('Failed to send message. Please check your EmailJS configuration.');
+        setErrorMessage(`Failed to send message: ${error.text || error.message || 'Check EmailJS configuration'}`);
       })
       .finally(() => setIsSubmitting(false));
   };
 
   return (
-    <div className="py-20 max-w-xl mx-auto px-6">
+    <motion.div 
+      initial={isHome ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
+      whileInView={isHome ? { opacity: 1, y: 0 } : undefined}
+      viewport={isHome ? { once: true, amount: 0.2 } : undefined}
+      transition={isHome ? { duration: 0.6 } : undefined}
+      className="py-20 max-w-xl mx-auto px-6"
+    >
       <div className="text-center mb-10">
         <h2 className="text-4xl font-bold mb-4 text-gray-900 dark:text-white transition-colors duration-300">Get in Touch</h2>
         <p className="text-gray-500 dark:text-gray-400">Have a question or want to work together?</p>
@@ -130,9 +144,8 @@ const Contact = memo(() => {
           {isSubmitting ? 'Sending...' : 'Send Message'}
         </button>
       </form>
-    </div>
+    </motion.div>
   );
-});
+};
 
-Contact.displayName = 'Contact';
 export default Contact;
