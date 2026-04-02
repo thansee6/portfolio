@@ -4,7 +4,7 @@ import projectsData from "../projects.json";
 
 const Projects = ({ isHome }) => {
   return (
-    <motion.section 
+    <motion.section
       initial={isHome ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}
       whileInView={isHome ? { opacity: 1, y: 0 } : undefined}
       viewport={isHome ? { once: true, amount: 0.1 } : undefined}
@@ -72,5 +72,4 @@ const Projects = ({ isHome }) => {
     </motion.section>
   );
 };
-
 export default Projects;

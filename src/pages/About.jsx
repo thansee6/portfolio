@@ -1,6 +1,4 @@
-
 import { motion } from 'framer-motion';
-
 const About = ({ isHome }) => (
   <motion.div 
     initial={isHome ? { opacity: 0, y: 50 } : { opacity: 1, y: 0 }}

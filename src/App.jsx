@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
+import FloatingContact from './components/FloatingContact';
 
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -15,7 +16,7 @@ function App() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 75);
+    }, 2200);
     return () => clearTimeout(timer);
   }, []);
 
@@ -26,7 +27,7 @@ function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen bg-white dark:bg-black transition-colors duration-300">
-        
+
         <Navbar />
 
         <main className="flex-grow">
@@ -41,6 +42,7 @@ function App() {
         </main>
 
         <Footer />
+        <FloatingContact />
       </div>
     </Router>
   );
