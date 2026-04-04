@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Themecontext } from './context';
 
 const navLinks = [
   { name: 'Home', id: 'home', href: '/' },
@@ -14,22 +15,24 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
 
-  const [darkMode, setDarkMode] = useState(() => {
-    const stored = window.localStorage.getItem('theme');
-    if (stored) return stored === 'dark';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
-  });
+  // const [darkMode, setDarkMode] = useState(() => {
+  //   const stored = window.localStorage.getItem('theme');
+  //   if (stored) return stored === 'dark';
+  //   return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  // });
+  //
+  // useEffect(() => {
+  //   const root = window.document.documentElement;
+  //   if (darkMode) {
+  //     root.classList.add('dark');
+  //     window.localStorage.setItem('theme', 'dark');
+  //   } else {
+  //     root.classList.remove('dark');
+  //     window.localStorage.setItem('theme', 'light');
+  //   }
+  // }, [darkMode]);
 
-  useEffect(() => {
-    const root = window.document.documentElement;
-    if (darkMode) {
-      root.classList.add('dark');
-      window.localStorage.setItem('theme', 'dark');
-    } else {
-      root.classList.remove('dark');
-      window.localStorage.setItem('theme', 'light');
-    }
-  }, [darkMode]);
+
 
 
 
@@ -113,6 +116,8 @@ const Navbar = () => {
   `;
 
   return (
+    <Themecontext.Consumer>
+      {({ theme, setTheme }) => (
     <nav className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled
       ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md py-3'
       : 'bg-white dark:bg-gray-900 py-5'
@@ -144,8 +149,8 @@ const Navbar = () => {
         </div>
 
         <div className=" flex items-center space-x-4">
-          <button onClick={() => setDarkMode(!darkMode)} className="text-2xl">
-            {darkMode ? '☀️' : '🌙`'}
+          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="text-2xl">
+            {theme === 'dark' ? '☀️' : '🌙'}
           </button>
 
           <button
@@ -190,6 +195,8 @@ const Navbar = () => {
         </div>
       </div>
     </nav>
+      )}
+    </Themecontext.Consumer>
   );
 };
 export default Navbar;

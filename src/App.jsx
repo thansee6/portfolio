@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Loader from './components/Loader';
 import FloatingContact from './components/FloatingContact';
+import { Themecontext } from './components/context';
 
 const Home = lazy(() => import('./pages/Home'));
 const About = lazy(() => import('./pages/About'));
@@ -12,6 +13,8 @@ const Contact = lazy(() => import('./pages/Contact'));
 
 function App() {
   const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState("light");
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -20,12 +23,22 @@ function App() {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+  }, [theme]);
+
   if (loading) {
     return <Loader />;
   }
 
   return (
     <Router>
+      <Themecontext.Provider value={{theme,setTheme}}>
       <div className="flex flex-col min-h-screen bg-white dark:bg-black transition-colors duration-300">
 
         <Navbar />
@@ -44,6 +57,7 @@ function App() {
         <Footer />
         <FloatingContact />
       </div>
+    </Themecontext.Provider>
     </Router>
   );
 }
