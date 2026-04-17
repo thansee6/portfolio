@@ -4,20 +4,20 @@
     "title": "E-commerce App",
     "tech": "React • Stripe",
     "desc": "A full-stack shopping experience.",
-    "image": "img.jpg"
+    "image": "/ecommerce_app.png"
   },
   {
     "id": 2,
     "title": "AI Dashboard",
     "tech": "Tailwind • OpenAI",
     "desc": "Real-time data visualization tool.",
-    "image": "img.jpg"
+    "image": "/ai_dashboard.png"
   },
   {
     "id": 3,
     "title": "Portfolio 2026",
     "tech": "Vite • Framer",
     "desc": "The site you are currently viewing!",
-    "image": "img.jpg"
+    "image": "/portfolio_site.png"
   }
 ]
