@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Themecontext } from './context';
-
 const navLinks = [
   { name: 'Home', id: 'home', href: '/' },
   { name: 'About', id: 'about', href: '/about' },
@@ -116,15 +114,13 @@ const Navbar = () => {
   `;
 
   return (
-    <Themecontext.Consumer>
-      {({ theme, setTheme }) => (
     <nav className={`fixed w-full top-0 z-50 transition-all duration-300 ${scrolled
-      ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-md py-3'
-      : 'bg-white dark:bg-gray-900 py-5'
+      ? 'bg-bg-base/90 backdrop-blur-md shadow-md py-3'
+      : 'bg-bg-base py-5'
       }`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
 
-        <Link to="/" className="text-3xl font-extrabold text-blue-600 tracking-tighter">
+        <Link to="/" className="text-3xl font-extrabold text-brand tracking-tighter">
           Thanseeh
         </Link>
 
@@ -136,26 +132,22 @@ const Navbar = () => {
               className={`
         text-lg font-medium transition-all duration-300 relative py-1
         ${activeSection === link.id
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-600'
+                  ? 'text-brand'
+                  : 'text-gray-400 hover:text-brand'
                 }
       `}
             >
               {link.name}
-              <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0'
+              <span className={`absolute bottom-0 left-0 h-0.5 bg-brand transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0'
                 }`}></span>
             </button>
           ))}
         </div>
 
         <div className=" flex items-center space-x-4">
-          <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="text-2xl">
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </button>
-
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="text-gray-600 dark:text-gray-300 focus:outline-none md:hidden"
+            className="text-gray-300 focus:outline-none md:hidden"
           >
             <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isOpen ? (
@@ -169,7 +161,7 @@ const Navbar = () => {
       </div>
 
       <div className={`
-        absolute top-full left-0 w-full bg-white dark:bg-gray-900 border-t dark:border-gray-800 
+        absolute top-full left-0 w-full bg-bg-base border-t border-gray-800 
         transition-all duration-300 ease-in-out md:hidden
         ${isOpen ? 'translate-y-0 opacity-100' : '-translate-y-5 opacity-0 pointer-events-none'}
       `}>
@@ -182,21 +174,19 @@ const Navbar = () => {
               className={`
                 text-lg font-medium transition-all duration-300 relative py-1 text-left w-max
                 ${activeSection === link.id
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+                  ? 'text-brand'
+                  : 'text-gray-400 hover:text-brand'
                 }
               `}
             >
               {link.name}
-              <span className={`absolute bottom-0 left-0 h-0.5 bg-blue-600 transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0'
+              <span className={`absolute bottom-0 left-0 h-0.5 bg-brand transition-all duration-300 ${activeSection === link.id ? 'w-full' : 'w-0'
                 }`}></span>
             </button>
           ))}
         </div>
       </div>
     </nav>
-      )}
-    </Themecontext.Consumer>
   );
 };
 export default Navbar;

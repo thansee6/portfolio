@@ -44,7 +44,7 @@ const Home = () => {
         onClose={handleCloseModal}
         title="Glad you're here!"
       >
-        <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+        <p className="text-gray-300 leading-relaxed">
           I'm currently open for full-time positions.
           Let's build something amazing together!
         </p>

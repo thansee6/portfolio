@@ -9,22 +9,22 @@ const Projects = ({ isHome }) => {
       whileInView={isHome ? { opacity: 1, y: 0 } : undefined}
       viewport={isHome ? { once: true, amount: 0.1 } : undefined}
       transition={isHome ? { duration: 0.6 } : undefined}
-      className="py-24 bg-white dark:bg-black transition-colors duration-300 min-h-screen"
+      className="py-24 bg-bg-base transition-colors duration-300 min-h-screen"
     >
       <div className="max-w-7xl mx-auto px-6">
 
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 dark:text-white mb-4">
-            Recent <span className="text-blue-600">Work</span>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
+            Recent <span className="text-brand">Work</span>
           </h2>
-          <div className="h-1.5 w-20 bg-blue-600 mx-auto rounded-full"></div>
+          <div className="h-1.5 w-20 bg-brand mx-auto rounded-full"></div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
           {projectsData.map((project) => (
             <div
               key={project.id}
-              className="group bg-gray-50 dark:bg-gray-900 rounded-[2rem] overflow-hidden border border-gray-100 dark:border-gray-800 hover:border-blue-500/50 transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2"
+              className="group bg-bg-card rounded-[2rem] overflow-hidden border border-gray-800 hover:border-brand/50 transition-all duration-500 hover:shadow-2xl hover:shadow-brand/5 hover:-translate-y-2"
             >
               <div className="relative overflow-hidden aspect-video">
                 <img
@@ -40,16 +40,16 @@ const Projects = ({ isHome }) => {
               </div>
               <div className="p-8">
                 <div className="flex justify-between items-start mb-4">
-                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-blue-600 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 rounded-full">
+                  <span className="text-[10px] font-black uppercase tracking-[0.25em] text-brand bg-brand-muted px-3 py-1 rounded-full">
                     {project.tech}
                   </span>
                 </div>
 
-                <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-blue-600 transition-colors">
+                <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-brand transition-colors">
                   {project.title}
                 </h3>
 
-                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-6">
+                <p className="text-gray-400 text-sm leading-relaxed mb-6">
                   {project.desc}
                 </p>
 
@@ -57,7 +57,7 @@ const Projects = ({ isHome }) => {
                   href={project.link}
                   target="_blank"
                   rel="noreferrer"
-                  className="inline-flex items-center text-sm font-bold text-gray-900 dark:text-white hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+                  className="inline-flex items-center text-sm font-bold text-white hover:text-brand transition-colors"
                 >
                   GitHub Repository
                   <svg className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
