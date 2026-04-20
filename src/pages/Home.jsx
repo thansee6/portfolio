@@ -17,9 +17,11 @@ const Home = () => {
   return (
     <div>
       <Helmet>
-        <title>Thanseeh | Frontend Developer</title>
-        <meta name="description" content="Portfolio of Thanseeh, a React frontend developer specializing in modern web apps." />
-        <meta name="keywords" content="React developer, frontend developer, portfolio" />
+        <title>Thanseeh | Full Stack Developer</title>
+        <meta name="description" content="Portfolio of Thanseeh, a Full Stack Developer specializing in React, building robust web applications." />
+        <meta name="keywords" content="Thanseeh, UI developer, full stack developer, React developer, portfolio, Thanseeh developer" />
+        <meta property="og:title" content="Thanseeh | Full Stack Developer" />
+        <meta property="og:description" content="Portfolio of Thanseeh, a Full Stack Developer specializing in React and modern web apps." />
       </Helmet>
       <section id="home">
         <Hero onOpenModal={handleOpenModal} />
