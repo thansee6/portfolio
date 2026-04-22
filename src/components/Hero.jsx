@@ -66,8 +66,8 @@ const Hero = memo(({ onOpenModal }) => {
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
           className="text-5xl sm:text-6xl md:text-8xl font-extrabold mb-6 tracking-tight leading-[1.1]"
         >
-          <span className="block text-white">Hey, I'm Thanseeh</span>
-          <span className="block text-brand">
+          <span className="block text-transparent bg-clip-text bg-gradient-to-br from-white via-gray-100 to-gray-400 drop-shadow-sm">Hey, I'm Thanseeh</span>
+          <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brand via-lime-300 to-emerald-400 drop-shadow-md pb-2">
             Full Stack Developer.
           </span>
         </motion.h1>
@@ -79,9 +79,9 @@ const Hero = memo(({ onOpenModal }) => {
           transition={{ duration: 0.6, ease: "easeOut", delay: 0.2 }}
           className="text-lg sm:text-xl md:text-2xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-medium"
         >
-          Crafting exceptional digital experiences with a focus on beautiful interfaces and seamless performance using
-          <span className="text-white font-semibold"> React </span> &
-          <span className="text-white font-semibold"> Tailwind CSS</span>.
+          I build complete web applications, handling everything from
+          <span className="text-white font-semibold"> clean interfaces </span> to
+          <span className="text-white font-semibold"> powerful back-ends</span>.
         </motion.p>
 
         {/* Action Buttons */}
